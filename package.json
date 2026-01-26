@@ -1,0 +1,80 @@
+{
+  "name": "react-magazine",
+  "version": "1.0.0",
+  "description": "A lightweight React component for realistic page-flip animations, featuring built-in navigation controls, full TypeScript support, and easy style customization.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types && npm run build:css",
+    "build:esm": "rollup -c rollup.config.mjs --environment FORMAT:esm",
+    "build:cjs": "rollup -c rollup.config.mjs --environment FORMAT:cjs",
+    "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
+    "build:css": "node -e \"require('fs').mkdirSync('dist', {recursive: true}); require('fs').copyFileSync('src/styles.css', 'dist/styles.css')\"",
+    "clean": "node -e \"require('fs').rmSync('dist', {recursive: true, force: true})\"",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "page-flip": "^2.0.7"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rollup": "^4.9.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.0"
+  },
+  "keywords": [
+    "react",
+    "pageflip",
+    "flipbook",
+    "magazine",
+    "book",
+    "page-turn",
+    "page-flip",
+    "flip-book",
+    "typescript",
+    "react-component"
+  ],
+  "author": "Gnanaprakash",
+  "license": "MIT",
+  "homepage": "https://github.com/Gnanaprakash-Dev/react-magazine#readme",
+  "bugs": {
+    "url": "https://github.com/Gnanaprakash-Dev/react-magazine/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gnanaprakash-Dev/react-magazine.git"
+  }
+}

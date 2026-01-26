@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Claude Code
+claude/
+
+# Build output
+dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+
+# Package manager locks (optional - uncomment if you want to exclude)
+# package-lock.json
