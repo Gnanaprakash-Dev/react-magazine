@@ -88,10 +88,19 @@ function App() {
   return (
     <div>
       <MagazineBook ref={bookRef} width={400} height={500} {...handlers}>
-        <Page number={1}>Page 1</Page>
-        <Page number={2}>Page 2</Page>
-        <Page number={3}>Page 3</Page>
-        <Page number={4}>Page 4</Page>
+        {images.map((img, index) => (
+          <Page key={index} number={index + 1}>
+            <img
+              src={img}
+              alt={`Page ${index + 1}`}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </Page>
+        ))}
       </MagazineBook>
       <button onClick={() => flipPrev()}>Previous</button>
         <span>Page {state.currentPage + 1} of {state.pageCount}</span>
