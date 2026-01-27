@@ -2,6 +2,10 @@
 
 React component for creating realistic magazine-style page flip animations with built-in controls and full TypeScript support.
 
+## Demo
+
+![react-magazine demo](video.gif)
+
 ## Installation
 
 ```bash
@@ -14,19 +18,36 @@ npm install react-magazine
 import { MagazineBook, Page } from 'react-magazine';
 import 'react-magazine/styles.css';
 
+  const images = [
+  "https://picsum.photos/id/1/400/500",
+  "https://picsum.photos/id/2/400/500",
+  "https://picsum.photos/id/3/400/500",
+  "https://picsum.photos/id/4/400/500",
+  "https://picsum.photos/id/5/400/500",
+  "https://picsum.photos/id/6/400/500",
+  "https://picsum.photos/id/7/400/500",
+  "https://picsum.photos/id/8/400/500",
+  "https://picsum.photos/id/9/400/500",
+  "https://picsum.photos/id/10/400/500",
+];
+
 function App() {
   return (
-    <MagazineBook
-      width={400}
-      height={500}
-      showCover={true}
-      showControls={true}
-    >
-      <Page number={1}>Front Cover</Page>
-      <Page number={2}>Page 2</Page>
-      <Page number={3}>Page 3</Page>
-      <Page number={4}>Back Cover</Page>
-    </MagazineBook>
+     <MagazineBook width={400} height={500} showCover={true} showControls={true}>
+        {images.map((img, index) => (
+          <Page key={index} number={index + 1}>
+            <img
+              src={img}
+              alt={`Page ${index + 1}`}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </Page>
+        ))}
+      </MagazineBook>
   );
 }
 ```
@@ -48,6 +69,19 @@ function App() {
 import { MagazineBook, Page, useFlipBook } from 'react-magazine';
 import 'react-magazine/styles.css';
 
+const images = [
+  "https://picsum.photos/id/1/400/500",
+  "https://picsum.photos/id/2/400/500",
+  "https://picsum.photos/id/3/400/500",
+  "https://picsum.photos/id/4/400/500",
+  "https://picsum.photos/id/5/400/500",
+  "https://picsum.photos/id/6/400/500",
+  "https://picsum.photos/id/7/400/500",
+  "https://picsum.photos/id/8/400/500",
+  "https://picsum.photos/id/9/400/500",
+  "https://picsum.photos/id/10/400/500",
+];
+
 function App() {
   const { bookRef, state, flipNext, flipPrev, handlers } = useFlipBook();
 
@@ -59,9 +93,8 @@ function App() {
         <Page number={3}>Page 3</Page>
         <Page number={4}>Page 4</Page>
       </MagazineBook>
-
-      <p>Page {state.currentPage + 1} of {state.pageCount}</p>
       <button onClick={() => flipPrev()}>Previous</button>
+        <span>Page {state.currentPage + 1} of {state.pageCount}</span>
       <button onClick={() => flipNext()}>Next</button>
     </div>
   );
