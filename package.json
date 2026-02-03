@@ -1,6 +1,6 @@
 {
   "name": "react-magazine",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A lightweight React component for realistic page-flip animations, featuring built-in navigation controls, full TypeScript support, and easy style customization.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
