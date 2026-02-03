@@ -15,24 +15,29 @@
         "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.js"
       }
-    },
-    "./styles.css": "./dist/styles.css"
+    }
   },
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
-  "sideEffects": [
-    "*.css"
-  ],
+  "sideEffects": false,
   "scripts": {
-    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types && npm run build:css",
+    "dev": "rollup -c rollup.config.mjs --environment FORMAT:esm --watch",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:types",
     "build:esm": "rollup -c rollup.config.mjs --environment FORMAT:esm",
     "build:cjs": "rollup -c rollup.config.mjs --environment FORMAT:cjs",
     "build:types": "tsc --emitDeclarationOnly --declaration --declarationDir dist/types",
-    "build:css": "node -e \"require('fs').mkdirSync('dist', {recursive: true}); require('fs').copyFileSync('src/styles.css', 'dist/styles.css')\"",
     "clean": "node -e \"require('fs').rmSync('dist', {recursive: true, force: true})\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
@@ -43,17 +48,31 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.5",
-    "@types/react": "^19.0.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "rollup": "^4.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "@vitest/ui": "^4.0.18",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "happy-dom": "^20.5.0",
+    "jsdom": "^28.0.0",
+    "prettier": "^3.8.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "rollup": "^4.57.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "tslib": "^2.6.2",
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.18"
   },
   "keywords": [
     "react",

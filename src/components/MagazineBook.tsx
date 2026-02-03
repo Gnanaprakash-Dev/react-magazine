@@ -34,6 +34,61 @@ interface MagazineBookProps extends Partial<IFlipSetting>, IEventProps {
   controlsStyle?: React.CSSProperties;
 }
 
+// Inline styles
+const inlineStyles = {
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  } as React.CSSProperties,
+
+  magazine: {
+    display: 'block',
+    position: 'relative',
+    userSelect: 'none',
+    WebkitUserSelect: 'none',
+    touchAction: 'pan-y',
+    boxSizing: 'border-box',
+  } as React.CSSProperties,
+
+  controls: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '15px',
+    marginTop: '8px',
+  } as React.CSSProperties,
+
+  button: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '8px 16px',
+    fontSize: '13px',
+    fontWeight: 500,
+    border: 'none',
+    borderRadius: '6px',
+    background: '#2196F3',
+    color: 'white',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  } as React.CSSProperties,
+
+  buttonDisabled: {
+    opacity: 0.5,
+    cursor: 'not-allowed',
+    background: '#90CAF9',
+  } as React.CSSProperties,
+
+  pageInfo: {
+    fontSize: '13px',
+    color: '#666',
+    padding: '6px 12px',
+    background: '#f5f5f5',
+    borderRadius: '4px',
+  } as React.CSSProperties,
+};
+
 // SVG Arrow Icons
 const ChevronLeft = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -92,7 +147,7 @@ const MagazineBookForward = forwardRef<PageFlipInstance, MagazineBookProps>(
     const pageFlip = useRef<PageFlip | null>(null);
 
     const [pages, setPages] = useState<ReactElement[]>([]);
-    const [orientation, setOrientation] = useState<PageOrientation>('landscape');
+    const [, setOrientation] = useState<PageOrientation>('landscape');
     const [currentPage, setCurrentPage] = useState(0);
     const [pageCount, setPageCount] = useState(0);
 
@@ -213,7 +268,7 @@ const MagazineBookForward = forwardRef<PageFlipInstance, MagazineBookProps>(
             }
           });
 
-          // Always track orientation for CSS classes
+          // Always track orientation
           flip.on('changeOrientation', (e: unknown) => {
             const event = e as { data: PageOrientation };
             setOrientation(event.data);
@@ -346,58 +401,61 @@ const MagazineBookForward = forwardRef<PageFlipInstance, MagazineBookProps>(
       pageFlip.current?.flipNext();
     }, []);
 
-    // Build CSS classes
-    const cssClasses = [
-      'react-magazine',
-      `react-magazine--${orientation}`,
-      isLoading ? 'react-magazine--loading' : '',
-      disabled ? 'react-magazine--disabled' : '',
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ');
+    // Merge styles
+    const magazineStyle: React.CSSProperties = {
+      ...inlineStyles.magazine,
+      ...style,
+      opacity: isLoading ? 0.5 : undefined,
+      pointerEvents: disabled || isLoading ? 'none' : undefined,
+    };
+
+    const isPrevDisabled = currentPage === 0;
+    const isNextDisabled = currentPage >= pageCount - 1;
+
+    const prevButtonStyle: React.CSSProperties = {
+      ...inlineStyles.button,
+      ...(isPrevDisabled ? inlineStyles.buttonDisabled : {}),
+    };
+
+    const nextButtonStyle: React.CSSProperties = {
+      ...inlineStyles.button,
+      ...(isNextDisabled ? inlineStyles.buttonDisabled : {}),
+    };
 
     return (
-      <div className="react-magazine-wrapper">
+      <div style={inlineStyles.wrapper}>
         <div
           ref={htmlElementRef}
-          className={cssClasses}
-          style={{
-            ...style,
-            pointerEvents: disabled ? 'none' : undefined,
-          }}
+          className={className || undefined}
+          style={magazineStyle}
         >
           {pages}
         </div>
         {showControls && (
           <div
-            className={`react-magazine-controls ${controlsClassName}`}
+            className={controlsClassName || undefined}
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '15px',
-              marginTop: '8px',
+              ...inlineStyles.controls,
               ...controlsStyle,
             }}
           >
             <button
-              className="react-magazine-controls__btn react-magazine-controls__btn--prev"
               onClick={handlePrevPage}
-              disabled={currentPage === 0}
+              disabled={isPrevDisabled}
               type="button"
+              style={prevButtonStyle}
             >
               <ChevronLeft />
               <span>Previous</span>
             </button>
-            <span className="react-magazine-controls__page-info">
-              Page {currentPage + 1} of {pageCount || '...'}
+            <span style={inlineStyles.pageInfo}>
+              {currentPage + 1} / {pageCount || '...'}
             </span>
             <button
-              className="react-magazine-controls__btn react-magazine-controls__btn--next"
               onClick={handleNextPage}
-              disabled={currentPage >= pageCount - 1}
+              disabled={isNextDisabled}
               type="button"
+              style={nextButtonStyle}
             >
               <span>Next</span>
               <ChevronRight />

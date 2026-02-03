@@ -16,40 +16,33 @@ npm install react-magazine
 
 ```tsx
 import { MagazineBook, Page } from 'react-magazine';
-import 'react-magazine/styles.css';
 
-  const images = [
+const images = [
   "https://picsum.photos/id/1/400/500",
   "https://picsum.photos/id/2/400/500",
   "https://picsum.photos/id/3/400/500",
   "https://picsum.photos/id/4/400/500",
   "https://picsum.photos/id/5/400/500",
   "https://picsum.photos/id/6/400/500",
-  "https://picsum.photos/id/7/400/500",
-  "https://picsum.photos/id/8/400/500",
-  "https://picsum.photos/id/9/400/500",
-  "https://picsum.photos/id/10/400/500",
 ];
 
 function App() {
   return (
-     <MagazineBook width={400} height={500} showCover={true} showControls={true}>
-        {images.map((img, index) => (
-          <Page key={index} number={index + 1}>
-            <img
-              src={img}
-              alt={`Page ${index + 1}`}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-            />
-          </Page>
-        ))}
-      </MagazineBook>
+    <MagazineBook width={400} height={500} showCover={true} showControls={true}>
+      {images.map((img, index) => (
+        <Page key={index} number={index + 1}>
+          <img
+            src={img}
+            alt={`Page ${index + 1}`}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </Page>
+      ))}
+    </MagazineBook>
   );
 }
+
+export default App;
 ```
 
 ## Features
@@ -62,24 +55,18 @@ function App() {
 - Touch and mouse support
 - TypeScript support
 - SSR compatible (with dynamic import)
+- Zero configuration - styles are built-in
 
 ## Using the useFlipBook Hook
 
 ```tsx
 import { MagazineBook, Page, useFlipBook } from 'react-magazine';
-import 'react-magazine/styles.css';
 
 const images = [
   "https://picsum.photos/id/1/400/500",
   "https://picsum.photos/id/2/400/500",
   "https://picsum.photos/id/3/400/500",
   "https://picsum.photos/id/4/400/500",
-  "https://picsum.photos/id/5/400/500",
-  "https://picsum.photos/id/6/400/500",
-  "https://picsum.photos/id/7/400/500",
-  "https://picsum.photos/id/8/400/500",
-  "https://picsum.photos/id/9/400/500",
-  "https://picsum.photos/id/10/400/500",
 ];
 
 function App() {
@@ -93,21 +80,21 @@ function App() {
             <img
               src={img}
               alt={`Page ${index + 1}`}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </Page>
         ))}
       </MagazineBook>
-      <button onClick={() => flipPrev()}>Previous</button>
+      <div>
+        <button onClick={() => flipPrev()}>Previous</button>
         <span>Page {state.currentPage + 1} of {state.pageCount}</span>
-      <button onClick={() => flipNext()}>Next</button>
+        <button onClick={() => flipNext()}>Next</button>
+      </div>
     </div>
   );
 }
+
+export default App;
 ```
 
 ## Props
@@ -165,12 +152,20 @@ When `showCover={true}`:
 - All inner pages remain **soft** (paper flip effect)
 
 ```tsx
-<MagazineBook showCover={true}>
-  <Page>Front Cover (auto hard)</Page>
-  <Page>Page 2 (soft - bends)</Page>
-  <Page>Page 3 (soft - bends)</Page>
-  <Page>Back Cover (auto hard)</Page>
-</MagazineBook>
+import { MagazineBook, Page } from 'react-magazine';
+
+function App() {
+  return (
+    <MagazineBook showCover={true}>
+      <Page>Front Cover (auto hard)</Page>
+      <Page>Page 2 (soft - bends)</Page>
+      <Page>Page 3 (soft - bends)</Page>
+      <Page>Back Cover (auto hard)</Page>
+    </MagazineBook>
+  );
+}
+
+export default App;
 ```
 
 ## Ref API Methods
@@ -219,6 +214,17 @@ const Page = dynamic(
   () => import('react-magazine').then((mod) => mod.Page),
   { ssr: false }
 );
+
+function App() {
+  return (
+    <MagazineBook width={400} height={500} showControls>
+      <Page number={1}>Page 1</Page>
+      <Page number={2}>Page 2</Page>
+    </MagazineBook>
+  );
+}
+
+export default App;
 ```
 
 ## TypeScript

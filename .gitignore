@@ -2,7 +2,7 @@
 node_modules/
 
 # Claude Code
-claude/
+.claude/
 
 # Build output
 dist/

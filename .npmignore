@@ -4,11 +4,30 @@ src/
 # Config files
 tsconfig.json
 rollup.config.mjs
+.eslintrc.json
+.prettierrc.json
+.prettierignore
+
+# Test files
+vitest.config.ts
+vitest.setup.ts
+__tests__/
+src/__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+coverage/
 
 # Development
 node_modules/
 .git/
 .gitignore
+.npmignore
+.github/
+
+# Claude Code
+.claude/
 
 # IDE
 .vscode/
@@ -24,13 +43,9 @@ Thumbs.db
 *.log
 npm-debug.log*
 
-# Test
-__tests__/
-*.test.ts
-*.test.tsx
-*.spec.ts
-*.spec.tsx
-coverage/
+# Demo assets (hosted externally)
+video.gif
+*.gif
 
-# Build artifacts (keep dist/)
+# Build artifacts
 *.tsbuildinfo
